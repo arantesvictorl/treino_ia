@@ -3,11 +3,7 @@ from langchain.prompts import PromptTemplate
 from langchain.chains import LLMChain
 import streamlit as st
 import os
-import getpass
-import os
 
-if "GOOGLE_API_KEY" not in os.environ:
-    os.environ["GOOGLE_API_KEY"] = getpass.getpass("AIzaSyATyQL2YDxDE3k54K4dN4fgb60DxcTdr0M")
 PROMPT_TEMPLATE = """
 Idade: {Idade}
 Altura: {Altura}
