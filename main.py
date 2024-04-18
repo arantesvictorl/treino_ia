@@ -30,24 +30,27 @@ def main():
     objetivo = st.selectbox("Objetivo", ['Emagrecimento', 'Ganho de Massa', 'Qualidade de Vida', 'Controlar Doença'])
     tem_restricao = st.text_area("Tem restrição médica? Se sim, quais?")
 
-    if st.button('Predizer Modelo'):
-        anamnese = {
-            "Idade": idade,
-            "Altura": altura,
-            "Peso": peso,
-            "Frequência": frequencia,
-            "Sexo": sexo,
-            "Grau": grau,
-            "Objetivo": objetivo,
-            "Tem Restrição": tem_restricao
-        }
+    if st.button('Gerar Treino'):
+        if not idade or not altura or not peso or not frequencia or not sexo or not grau or not objetivo or not tem_restricao:
+            st.write("Por favor, preencha todos os campos.")
+        else:
+            anamnese = {
+                "Idade": idade,
+                "Altura": altura,
+                "Peso": peso,
+                "Frequência": frequencia,
+                "Sexo": sexo,
+                "Grau": grau,
+                "Objetivo": objetivo,
+                "Tem Restrição": tem_restricao
+            }
 
-        anamnese_str = PROMPT_TEMPLATE.format(Idade=anamnese["Idade"], Altura=anamnese["Altura"], Peso=anamnese["Peso"], Frequência=anamnese["Frequência"], Sexo=anamnese["Sexo"], Grau=anamnese["Grau"], Objetivo=anamnese["Objetivo"], Tem_Restrição=anamnese["Tem Restrição"])
-        llm = ChatGoogleGenerativeAI(temperature=TEMPERATURE, max_tokens=MAX_TOKENS, model="gemini-pro", api_key="AIzaSyATyQL2YDxDE3k54K4dN4fgb60DxcTdr0M")
-        prompt = PromptTemplate(input_variables=list(anamnese.keys()), template=anamnese_str)
-        llm_chain = LLMChain(llm=llm, prompt=prompt)
-        response = llm_chain.invoke(anamnese)
-        st.write(response["text"])
+            anamnese_str = PROMPT_TEMPLATE.format(Idade=anamnese["Idade"], Altura=anamnese["Altura"], Peso=anamnese["Peso"], Frequência=anamnese["Frequência"], Sexo=anamnese["Sexo"], Grau=anamnese["Grau"], Objetivo=anamnese["Objetivo"], Tem_Restrição=anamnese["Tem Restrição"])
+            llm = ChatGoogleGenerativeAI(temperature=TEMPERATURE, max_tokens=MAX_TOKENS, model="gemini-pro", api_key="YOUR_API_KEY")
+            prompt = PromptTemplate(input_variables=list(anamnese.keys()), template=anamnese_str)
+            llm_chain = LLMChain(llm=llm, prompt=prompt)
+            response = llm_chain.invoke(anamnese)
+            st.write(response["text"])
 
 if __name__ == "__main__":
     main()
