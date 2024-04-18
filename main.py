@@ -43,7 +43,7 @@ def main():
         }
 
         anamnese_str = PROMPT_TEMPLATE.format(Idade=anamnese["Idade"], Altura=anamnese["Altura"], Peso=anamnese["Peso"], Frequência=anamnese["Frequência"], Sexo=anamnese["Sexo"], Grau=anamnese["Grau"], Objetivo=anamnese["Objetivo"], Tem_Restrição=anamnese["Tem Restrição"])
-        llm = ChatGoogleGenerativeAI(temperature=TEMPERATURE, max_tokens=MAX_TOKENS, model="gemini-pro")
+        llm = ChatGoogleGenerativeAI(temperature=TEMPERATURE, max_tokens=MAX_TOKENS, model="gemini-pro", api_key="AIzaSyATyQL2YDxDE3k54K4dN4fgb60DxcTdr0M")
         prompt = PromptTemplate(input_variables=list(anamnese.keys()), template=anamnese_str)
         llm_chain = LLMChain(llm=llm, prompt=prompt)
         response = llm_chain.invoke(anamnese)
