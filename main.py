@@ -2,7 +2,12 @@ from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain.prompts import PromptTemplate
 from langchain.chains import LLMChain
 import streamlit as st
+import os
+import getpass
+import os
 
+if "GOOGLE_API_KEY" not in os.environ:
+    os.environ["GOOGLE_API_KEY"] = getpass.getpass("AIzaSyATyQL2YDxDE3k54K4dN4fgb60DxcTdr0M")
 PROMPT_TEMPLATE = """
 Idade: {Idade}
 Altura: {Altura}
@@ -46,7 +51,7 @@ def main():
             }
 
             anamnese_str = PROMPT_TEMPLATE.format(Idade=anamnese["Idade"], Altura=anamnese["Altura"], Peso=anamnese["Peso"], Frequência=anamnese["Frequência"], Sexo=anamnese["Sexo"], Grau=anamnese["Grau"], Objetivo=anamnese["Objetivo"], Tem_Restrição=anamnese["Tem Restrição"])
-            llm = ChatGoogleGenerativeAI(temperature=TEMPERATURE, max_tokens=MAX_TOKENS, model="gemini-pro", api_key="AIzaSyATyQL2YDxDE3k54K4dN4fgb60DxcTdr0M")
+            llm = ChatGoogleGenerativeAI(temperature=TEMPERATURE, max_tokens=MAX_TOKENS, model="gemini-pro")
             prompt = PromptTemplate(input_variables=list(anamnese.keys()), template=anamnese_str)
             llm_chain = LLMChain(llm=llm, prompt=prompt)
             response = llm_chain.invoke(anamnese)
